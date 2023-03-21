@@ -21,3 +21,21 @@
 #angina pain in heart caused due to low blood during excersice
 #target 0 ->healthy 1->heart disease
 
+#importing dependencies
+import pandas as pd         ##useful to create df in more structred way
+import numpy as np          #make numy array
+from sklearn.model_selection import train_test_split   #train test split to split data into training and testing
+from sklearn.linear_model import LogisticRegression     #logisctics reg libbary
+from sklearn.metrics import accuracy_score      #to evaluate accuracy scroe
+
+
+###DATA COLLECTION AND PROCESSING
+#loading the csv to a pandas df
+
+data=pd.read_csv("heart_data.csv")
+
+#Print first 5 rows fo dataset
+print(data.head())
+print(data.tail())
+
+
