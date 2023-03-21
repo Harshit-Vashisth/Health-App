@@ -9,3 +9,15 @@
 #5 in binnary classification model logistic regression model is very useful
 #6 now we will do evaluation on our trained model to check its performance sp after we will get a trained loggistic regressin model and to this model when we feed new data our model can predict wheather a person has heart disease or not
 
+
+##lets understand about our data
+# age - age of the patinet
+# sex
+# chest pain type(4 type)
+#cholestoral in mg/dl
+#resting bp
+#fasting blood sugar ?120
+##etc these are based on ecg curves
+#angina pain in heart caused due to low blood during excersice
+#target 0 ->healthy 1->heart disease
+
