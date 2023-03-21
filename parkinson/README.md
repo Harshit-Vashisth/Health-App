@@ -1,2 +1,0 @@
-# parkinson
- parkinson disease classifier
