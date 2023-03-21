@@ -103,7 +103,7 @@ print("Accuracy on Training data :",test_dataacc)
 
 
 #BUILDING A PREDICTIVE SYSTEM
-input_data=(49,1,1,130,266,0,1,171,0,0.6,2,0,2)
+input_data=(55,1,0,160,289,0,0,145,1,0.8,1,1,3)
 #processing on this data  change input data to numpy array
 data_nump=np.asarray(input_data)
 data_nump=data_nump.reshape(1,-1)  # otherwise it will assume it to bw 302  as we are predicting for one data point only
@@ -115,4 +115,5 @@ if(pred[0]==0):
     print("Person does not have heart problem ")
 else:
     print("You are having heart problem")
+
 
