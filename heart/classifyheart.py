@@ -10,6 +10,7 @@
 #6 now we will do evaluation on our trained model to check its performance sp after we will get a trained loggistic regressin model and to this model when we feed new data our model can predict wheather a person has heart disease or not
 
 
+
 ##lets understand about our data
 # age - age of the patinet
 # sex
@@ -69,7 +70,7 @@ print(y)
 
 ## nwo we have to feed x &  y to our ml model now before doing that but before we have to split our data into training data and test data
 #spliting data
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,stratify=y,random_state=2)  #20% as test Stratify split the data similar propotion of 0 and 1
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,stratify=y,random_state=2)  #20% as test Stratify split the data similar propotion of 0 and 1
 
 
 #lets check  number of train and test data
