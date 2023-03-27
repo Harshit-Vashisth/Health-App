@@ -8,11 +8,9 @@ from sklearn.datasets import make_classification
 from sklearn.preprocessing import StandardScaler
 
 
-data=pd.read_csv("card.csv")
-
-
-
-
+data=pd.read_csv("cardio.csv")
+data['age'] = data['age'].div(365.25).round(2)
+print(data)
 #Print first 5 rows fo dataset
 print(data.head())
 print(data.tail())
@@ -83,7 +81,7 @@ test_dataacc=accuracy_score(xtest_pred,y_test)
 
 print("Accuracy on Training data :",test_dataacc)
 
-input_data=(82,2,172,112,120,80,1,1,0,0,0)
+input_data=(61.8,2,178,95,130,90,3,3,0,0,1)
 #processing on this data  change input data to numpy array
 data_nump=np.asarray(input_data)
 data_nump=data_nump.reshape(1,-1)  # otherwise it will assume it to bw 302  as we are predicting for one data point only
