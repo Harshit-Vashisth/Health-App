@@ -8,7 +8,7 @@ from sklearn.datasets import make_classification
 from sklearn.preprocessing import StandardScaler
 
 
-data=pd.read_csv("cardio.csv")
+data=pd.read_csv("card.csv")
 
 
 
@@ -31,17 +31,17 @@ print(data.isnull().sum())
 #alayse the data
 #statistical measures about the data
 print(data.describe())
-
-data.drop(data[(data['height'] > data['height'].quantile(0.975)) | (data['height'] < data['height'].quantile(0.025))].index,inplace=True)
-data.drop(data[(data['weight'] > data['weight'].quantile(0.975)) | (data['weight'] < data['weight'].quantile(0.025))].index,inplace=True)
-
-print("Diastilic pressure is higher than systolic one in {0} cases".format(data[data['ap_lo']> data['ap_hi']].shape[0]))
-
-data.drop(data[(data['ap_hi'] > data['ap_hi'].quantile(0.975)) | (data['ap_hi'] < data['ap_hi'].quantile(0.025))].index,inplace=True)
-data.drop(data[(data['ap_lo'] > data['ap_lo'].quantile(0.975)) | (data['ap_lo'] < data['ap_lo'].quantile(0.025))].index,inplace=True)
-
-blood_pressure = data.loc[:,['ap_lo','ap_hi']]
-print("Diastilic pressure is higher than systolic one in {0} cases".format(data[data['ap_lo']> data['ap_hi']].shape[0]))
+#
+# data.drop(data[(data['height'] > data['height'].quantile(0.975)) | (data['height'] < data['height'].quantile(0.025))].index,inplace=True)
+# data.drop(data[(data['weight'] > data['weight'].quantile(0.975)) | (data['weight'] < data['weight'].quantile(0.025))].index,inplace=True)
+#
+# print("Diastilic pressure is higher than systolic one in {0} cases".format(data[data['ap_lo']> data['ap_hi']].shape[0]))
+#
+# data.drop(data[(data['ap_hi'] > data['ap_hi'].quantile(0.975)) | (data['ap_hi'] < data['ap_hi'].quantile(0.025))].index,inplace=True)
+# data.drop(data[(data['ap_lo'] > data['ap_lo'].quantile(0.975)) | (data['ap_lo'] < data['ap_lo'].quantile(0.025))].index,inplace=True)
+#
+# blood_pressure = data.loc[:,['ap_lo','ap_hi']]
+# print("Diastilic pressure is higher than systolic one in {0} cases".format(data[data['ap_lo']> data['ap_hi']].shape[0]))
 
 
 print(data['cardio'].value_counts())
@@ -49,26 +49,21 @@ print(data['cardio'].value_counts())
 
 
 #spliting the feature and the target
-x=data.drop(columns='cardio',axis=1)
+x=data.drop(columns=['cardio','id'],axis=1)
 y=data['cardio']
 
 print(x)
 print(y)
 
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,stratify=y,random_state=42)  #20% as test Stratify split the data similar propotion of 0 and 1
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,stratify=y,random_state=2)  #20% as test Stratify split the data similar propotion of 0 and 1
 
 
 #lets check  number of train and test data
 print(x.shape,x_train.shape,x_test.shape)
 
-
-scaler=StandardScaler()
-x_train=scaler.fit_transform(x_train)
-x_test=scaler.fit_transform(x_test)
-
 ###MODEL TRAINING
 ##LOGISTIC REGRESION -> also for classification
-model =LogisticRegression(penalty='l2',C=0.1)  # loading one instance of logistic reg model
+model =LogisticRegression(penalty='l1', C=0.1, solver='liblinear')  # loading one instance of logistic reg model
 
 
 
@@ -87,4 +82,18 @@ xtest_pred=model.predict(x_test)
 test_dataacc=accuracy_score(xtest_pred,y_test)
 
 print("Accuracy on Training data :",test_dataacc)
+
+input_data=(82,2,172,112,120,80,1,1,0,0,0)
+#processing on this data  change input data to numpy array
+data_nump=np.asarray(input_data)
+data_nump=data_nump.reshape(1,-1)  # otherwise it will assume it to bw 302  as we are predicting for one data point only
+
+pred=model.predict(data_nump)
+print(pred)
+
+if(pred[0]==0):
+    print("Person does not have heart problem ")
+else:
+    print("You are having heart problem")
+
 
