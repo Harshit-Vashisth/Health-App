@@ -44,9 +44,9 @@ print(data.describe())
 # print("Diastilic pressure is higher than systolic one in {0} cases".format(data[data['ap_lo']> data['ap_hi']].shape[0]))
 
 
+
 print(data['cardio'].value_counts())
 #1 -.yes(defective)   0 is no
-
 
 #spliting the feature and the target
 x=data.drop(columns=['cardio','id'],axis=1)
