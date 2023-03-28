@@ -146,7 +146,7 @@ print("by harshit")
 
 import pickle
 filename='parkmodel.sav'
-pickle.dump(model,open(filename,'wb'))
+pickle.dump(model,open(filename,'wb')) #model is svm
 loaded=pickle.load(open('parkmodel.sav','rb'))
 
 for column in x.columns:
