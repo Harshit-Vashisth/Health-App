@@ -1,5 +1,5 @@
 ###heart disease prediction
-
+import classifier as classifier
 #WORK FLOW
 
 #1 heart data- this data consist of several phealth parameter corresponding to person health
@@ -118,3 +118,10 @@ else:
     print("You are having heart problem")
 
 
+import pickle
+filename='heartmodel.sav'
+pickle.dump(model,open(filename,'wb'))
+loaded=pickle.load(open('heartmodel.sav','rb'))
+
+for column in x.columns:
+  print(column)
