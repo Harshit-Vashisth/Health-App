@@ -54,6 +54,19 @@ if(selected=='Heart Disease Prediction'):
     
     #creating button for prediction
     if st.button('Heart Disease Test Result'):
+        age = int(age)
+        sex = int(sex)
+        cp = int(cp)
+        trestbps = int(trestbps)
+        chol = int(chol)
+        fbs = int(fbs)
+        restecg = int(restecg)
+        thalach = int(thalach)
+        exang = int(exang)
+        oldpeak = float(oldpeak)
+        slope = int(slope)
+        ca = int(ca)
+        thal = int(thal)
         heart_prediction = heart.predict([[age, sex, cp, trestbps, chol, fbs, restecg,thalach,exang,oldpeak,slope,ca,thal]])                          
         
         if (heart_prediction[0] == 1):
