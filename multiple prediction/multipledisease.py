@@ -17,10 +17,14 @@ park=pickle.load(open('E:/git/Health-App/multiple prediction/models/parkmodel.sa
 
 #side bar for mavigation    sidebar create
 with st.sidebar:
-    selected=option_menu('Multiple Disease Prediction System',
+    selected=option_menu('Multiple Disease Prediction System',#TITLE OF SIDE BAR
+                         
+                         
                             ['Heart Disease Prediction',#list for what are diffrent pages we want as we have seen multiple web apps
                              'Parkinsons Disease Prediction'],
-                            icons=['activity','P circle'],
+                            
+                            icons=['activity','P-circle'],
+                            
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 
 
