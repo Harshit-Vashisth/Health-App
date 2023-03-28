@@ -142,3 +142,12 @@ if pred[0]==0:
 else:
     print("yes")
 print("by harshit")
+
+
+import pickle
+filename='parkmodel.sav'
+pickle.dump(model,open(filename,'wb'))
+loaded=pickle.load(open('parkmodel.sav','rb'))
+
+for column in x.columns:
+  print(column)
