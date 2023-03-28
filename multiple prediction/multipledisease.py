@@ -48,7 +48,19 @@ if(selected=='Heart Disease Prediction'):
     ca = st.text_input('Major vessels colored by flourosopy')
     thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
     
+    #code for prediction
+    # heer we have to create empty string
+    heart_dia=''   #we will save the end result
     
+    #creating button for prediction
+    if st.button('Heart Disease Test Result'):
+        heart_prediction = heart.predict([[age, sex, cp, trestbps, chol, fbs, restecg,thalach,exang,oldpeak,slope,ca,thal]])                          
+        
+        if (heart_prediction[0] == 1):
+            heart_dia='You are having Heart Disease'
+        else:
+            heart_dia='You are not having Heart Disease'
+    st.success(heart_dia)
     
 #parkinson Disease Prediction page
 if(selected=='Parkinsons Disease Prediction'):
