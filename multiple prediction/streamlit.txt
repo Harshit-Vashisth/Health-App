@@ -1,0 +1,1 @@
+streamlit run "E:\git\Health-App\multiple prediction\multipledisease.py"
