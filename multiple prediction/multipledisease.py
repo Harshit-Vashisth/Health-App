@@ -28,8 +28,6 @@ with st.sidebar:
                             icons=['activity','person'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
-
-
 #Heart Disease Prediction page
 if(selected=='Heart Disease Prediction'):
 #page title
@@ -77,7 +75,7 @@ if(selected=='Heart Disease Prediction'):
     heart_dia=''   #we will save the end result
     
     #creating button for prediction
-    if st.button('Heart Disease Test Result'):
+    if st.button('📆  Result'):
         age = int(age)
         sex = int(sex)
         cp = int(cp)
@@ -176,7 +174,7 @@ if(selected=='Parkinsons Disease Prediction'):
     park_dia=''
     
     #creating a button for pred
-    if st.button("Results"):
+    if st.button("📆 Results"):
         park_pred = park_model.predict([[fo,fhi,flo,Jitter_percent,Jitter_Abs,RAP,PPQ,DDP,Shimmer,Shimmer_dB,APQ3,APQ5,APQ,DDA,NHR,HNR,RPDE,DFA,spread1,spread2,D2,PPE]])
         if(park_pred[0]==1):
             park_dia='You are having parkinson disease'
@@ -220,9 +218,9 @@ if(selected=='Heart Disease Prediction2'):
     #code for prediction
     # heer we have to create empty string
     heart_dia=''   #we will save the end result
-    
+
     #creating button for prediction
-    if st.button('Heart Disease Test Result'):
+    if st.button('📆 Result'):
        
         heart_prediction = heart.predict([[age, sex, height,ap_hi, ap_lo,chol,glu,smoke,alco,active]])                          
         
