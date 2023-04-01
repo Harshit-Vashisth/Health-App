@@ -49,11 +49,12 @@ print(data['cardio'].value_counts())
 #spliting the feature and the target
 x=data.drop(columns=['cardio','id'],axis=1)
 y=data['cardio']
-
+scaler=StandardScaler()
+x=scaler.fit_transform(x)
 print(x)
 print(y)
 
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,stratify=y,random_state=2)  #20% as test Stratify split the data similar propotion of 0 and 1
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,stratify=y,random_state=11)  #20% as test Stratify split the data similar propotion of 0 and 1
 
 
 #lets check  number of train and test data
@@ -94,4 +95,11 @@ if(pred[0]==0):
 else:
     print("You are having heart problem")
 
+import pickle
+filename='heartmodel.sav'
+pickle.dump(model,open(filename,'wb'))
+loaded=pickle.load(open('heartmodel.sav','rb'))
+
+for column in x.columns:
+  print(column)
 
