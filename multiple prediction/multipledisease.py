@@ -12,6 +12,7 @@ from streamlit_option_menu import option_menu
 #loading the saved models
 heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.sav','rb')) #rb means reading file as bytes
 park_model=pickle.load(open('E:/git/Health-App/multiple prediction/models/parkinsons_model.sav','rb'))
+heart_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmod.sav','rb')) 
 
 
 
@@ -21,7 +22,8 @@ with st.sidebar:
                          
                          
                             ['Heart Disease Prediction',#list for what are diffrent pages we want as we have seen multiple web apps
-                             'Parkinsons Disease Prediction'],
+                             'Parkinsons Disease Prediction',
+                             'Heart Disease Prediction2'],
                             
                             icons=['activity','person'],
                             
@@ -181,3 +183,52 @@ if(selected=='Parkinsons Disease Prediction'):
         else:
             park_dia='You are not having parkinson disease'
     st.success(park_dia)
+    
+    
+    
+if(selected=='Heart Disease Prediction2'):
+#page title
+    st.title('Heart Disease Prediction using ML')
+    
+    #getting input data
+    #columns for input fields 
+    col1,col2,col3=st.columns(3)# as we have 3 coloumns
+    
+    with col1:
+        age=st.text_input('Age')
+    with col2:
+        sex=st.text_input('Gender|1 male 2 female')
+    with col3:
+        height=st.text_input('Heigth')    
+    with col1:
+        ap_hi=st.text_input('Weight')
+    with col2:
+        ap_lo=st.text_input('Systolic Blood Pressure') 
+    with col3:
+        chol= st.text_input('Diastolic Blood Pressure')     
+    with col1:
+        chol = st.text_input('Cholesterol level   | |')      
+    with col2:
+        glu = st.text_input('Glucose Level  |  |')         
+    with col3:
+        smoke= st.text_input('Smokes 0 or 1')
+    with col1:
+        alco= st.text_input('Consumes Alcohol 0 or 1')
+    with col2:
+        active= st.text_input('Physical Activity')   
+   
+    #code for prediction
+    # heer we have to create empty string
+    heart_dia=''   #we will save the end result
+    
+    #creating button for prediction
+    if st.button('Heart Disease Test Result'):
+       
+        heart_prediction = heart.predict([[age, sex, height,ap_hi, ap_lo,chol,glu,smoke,alco,active]])                          
+        
+        if (heart_prediction[0] == 1):
+            heart_dia='You are having Heart Disease'
+        else:
+            heart_dia='You are not having Heart Disease'
+    st.success(heart_dia)
+   
