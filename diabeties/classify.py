@@ -27,5 +27,40 @@ from sklearn import svm
 #split data in train test then same as other
 ##then feed to svm
 
+
+#data collection and analysis
 data=pd.read_csv('diabetes.csv')
 print(data)
+
+print(data.head())
+
+##in our data we ahve  pregnancies , glucose level , BloodPressure , SkinThickness(measured from the tricps tells about fat ), serun insulin level ,
+# body mass inde(calcutated by diivding weight by height square), diabetes peddigree funciton number which include some kidn of diabetic value , age, outcome
+
+#checking for rows and cloumn int the dataset
+print(data.shape)
+print("peeople attribute")
+
+#getting staticcal measure of the dataset
+print(data.describe())
+
+print(data['Outcome'].value_counts())
+#0 non 1 yes
+
+print(data.groupby('Outcome').mean())
+
+#seperating the data
+x=data.drop(columns='Outcome',axis=1)  # axis 1 for col 0 for row
+y=data['Outcome']
+
+# data standardizationn to standardizze the data
+scaler=StandardScaler()
+scaler.fit(x)
+
+#transforming the data
+sd_data=scaler.transform(x)## sacler.fit.tranfomr does it directly
+
+x=sd_data
+
+# training the data
+xtrain,xtest,ytrain,ytest(s)
