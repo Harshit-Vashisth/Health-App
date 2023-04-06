@@ -62,5 +62,5 @@ sd_data=scaler.transform(x)## sacler.fit.tranfomr does it directly
 
 x=sd_data
 
-# training the data
-xtrain,xtest,ytrain,ytest(s)
+# spliting the data into train and test
+xtrain,xtest,ytrain,ytest= train_test_split()
