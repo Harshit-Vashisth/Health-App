@@ -63,4 +63,4 @@ sd_data=scaler.transform(x)## sacler.fit.tranfomr does it directly
 x=sd_data
 
 # spliting the data into train and test
-xtrain,xtest,ytrain,ytest= train_test_split()
+xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,stratify=Y,reandom_state=2)
