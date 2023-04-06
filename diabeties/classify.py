@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split   #train test split to spli
 from sklearn.linear_model import LogisticRegression     #logisctics reg libbary
 from sklearn.metrics import accuracy_score      #to evaluate accuracy scroe
 from sklearn.preprocessing import StandardScaler
-from sklearn import svm 
+from sklearn import svm
 
 
 ## preoprcess the data first
