@@ -25,7 +25,7 @@ print(data.info())
 
 ##checking for missing values
 print(data.isnull().sum())
-
+print("is null")
 #alayse the data
 #statistical measures about the data
 print(data.describe())
