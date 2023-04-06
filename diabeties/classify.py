@@ -58,9 +58,29 @@ scaler=StandardScaler()
 scaler.fit(x)
 
 #transforming the data
-sd_data=scaler.transform(x)## sacler.fit.tranfomr does it directly
+x=scaler.transform(x)## sacler.fit.tranfomr does it directly
 
-x=sd_data
 
 # spliting the data into train and test
-xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,stratify=Y,reandom_state=2)
+xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,stratify=y,random_state=2)
+
+print(x.shape)
+print(xtrain.shape)
+print(xtest.shape)
+
+
+#training the model
+classifer=svm.SVC(kernel='linear')
+
+#training the svm
+classifer.fit(xtrain,ytrain)
+
+#model evaluation
+xtrainpred= classifer.predict(xtrain)
+trainacc= accuracy_score(xtrainpred,ytrain)
+print(trainacc)
+
+#on sample data
+xtestpred= classifer.predict(xtest)
+testacc= accuracy_score(xtestpred,ytest)
+print(testacc)
