@@ -23,9 +23,10 @@ with st.sidebar:
                          
                             ['Heart Disease Prediction',#list for what are diffrent pages we want as we have seen multiple web apps
                              'Parkinsons Disease Prediction',
-                             'Heart Disease Prediction2'],
+                             'Heart Disease Prediction2'
+                             'Diabetes Prediction'],
                             
-                            icons=['activity','person'],
+                            icons=['activity','person','Heart Rate 1 SVG Vector'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
