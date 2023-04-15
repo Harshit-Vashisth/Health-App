@@ -84,3 +84,38 @@ print(trainacc)
 xtestpred= classifer.predict(xtest)
 testacc= accuracy_score(xtestpred,ytest)
 print(testacc)
+
+import pickle
+filename='diabet_model.sav'  #nothing just a file name
+pickle.dump(classifer,open(filename,'wb')) #model is svm
+loaded=pickle.load(open('diabet_model.sav','rb'))
+
+#building predictive system
+#tuple ()
+input= (2,197,70,45,543,30.5,0.158,53)
+##status has removed from this data
+print('ho')
+##changing input data to numpy array
+input_numpy=np.asarray(input)
+##converting tuple to numpy array
+
+##reshaping the  array
+input_reshape=input_numpy.reshape(1,-1)
+# model will excepting 1 value no the 156 values
+
+##standardise the data now
+std_data=scaler.transform(input_reshape)
+
+pred=classifer.predict(std_data)##it will print the status values of this data
+print(pred)
+if pred[0]==0:
+    print("NO")
+else:
+    print("yes")
+print("by harshit")
+
+
+
+
+for column in x.columns:
+  print(column)
