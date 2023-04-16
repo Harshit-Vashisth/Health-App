@@ -14,6 +14,7 @@ heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.
 park_model=pickle.load(open('E:/git/Health-App/multiple prediction/models/parkinsons_model.sav','rb'))
 heart_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmod.sav','rb')) 
 dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_model.sav','rb')) 
+covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
 
 
@@ -25,9 +26,10 @@ with st.sidebar:
                             ['Heart Disease Prediction',#list for what are diffrent pages we want as we have seen multiple web apps
                              'Parkinsons Disease Prediction',
                              'Heart Disease Prediction2',
-                             'Diabetes Prediction'],
+                             'Diabetes Prediction',
+                             'Covid Prediction'],
                             
-                            icons=['activity','person','person','activity'],
+                            icons=['activity','person','person','activity','virus'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
@@ -277,4 +279,62 @@ if(selected=='Diabetes Prediction'):
         else:
             diabet_dia='You are not having Heart Disease'
     st.success(diabet_dia)
+   
+    
+#covid prediction
+if(selected=='Covid Prediction'):
+#page title
+    st.title('Covid Prediction')
+    
+    #getting input data
+    #columns for input fields 
+    col1,col2,col3=st.columns(3)# as we have 3 coloumns
+    
+    with col1:
+        breath=st.text_input('Breathing Problem')
+    with col2:
+        fever=st.text_input('Fever')
+    with col3:
+        cough=st.text_input('Dry Cough')    
+    with col1:
+        sore=st.text_input('Sore throat')
+    with col2:
+        running=st.text_input('Running Nose') 
+    with col3:
+        asthma= st.text_input('Asthma')     
+    with col1:
+        lung= st.text_input('Chronic Lung Disease')      
+    with col2:
+        head= st.text_input('Headache')  
+    with col3:
+         hear= st.text_input('Heart Disease')      
+    with col1:
+         diab = st.text_input('Diabetes')  
+    with col2:
+         tens= st.text_input('Hyper Tension')      
+    with col3:
+         fati= st.text_input('Fatigue')  
+    with col1:
+         gas= st.text_input('Gastrointestinal')      
+    with col2:
+         cont = st.text_input('Contact with COVID Patient')  
+
+    #inputing from user   st is for stemlit text_input is for those input fields and the string we want to display about the input level
+    
+   
+    #code for prediction
+    # heer we have to create empty string
+    covid_dia=''   #we will save the end result
+    
+    #creating button for prediction
+    if st.button('📆  Result'):
+      
+        
+        covid_pred= covid.predict([[breath,fever,cough,sore,running,asthma,lung,head,hear,diab,tens,fati,gas,cont]])                          
+        
+        if (covid_pred[0] == 1):
+            covid_dia='You are having Heart Disease'
+        else:
+            covid_dia='You are not having Heart Disease'
+    st.success(covid_dia)
    
