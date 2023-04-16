@@ -17,7 +17,7 @@ dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_mo
 covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
 
-st.set_page_config(page_title="Health App", page_icon="E:/git/Health-App/multiple prediction/health.jpg")
+st.set_page_config(page_title="Health App", page_icon="https://cdn-icons-png.flaticon.com/512/2966/2966327.png")
 
 
 #side bar for mavigation    sidebar create
@@ -31,7 +31,7 @@ with st.sidebar:
                              'Diabetes Prediction',
                              'Covid Prediction'],
                             
-                            icons=['heartimg.png','parkimg.png','activity','diaimg.png','covidimg.png'],
+                            icons=['k','parkimg.png','activity','diaimg.png','covidimg.png'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
