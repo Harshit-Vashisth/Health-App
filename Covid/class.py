@@ -51,7 +51,7 @@ print("hehe")
 print(data.groupby('COVID-19').mean())
 
 #seperating the data
-x=data.drop(columns=['Attended Large Gathering','Visited Public Exposed Places','Family working in Public Exposed Places','Wearing Masks','Sanitization from Market','COVID-19'],axis=1)  # axis 1 for col 0 for row
+x=data.drop(columns=['Attended Large Gathering','Abroad travel','Visited Public Exposed Places','Family working in Public Exposed Places','Wearing Masks','Sanitization from Market','COVID-19'],axis=1)  # axis 1 for col 0 for row
 y=data['COVID-19']
 
 print(x)
@@ -91,14 +91,9 @@ xtestpred= classifer.predict(xtest)
 testacc= accuracy_score(xtestpred,ytest)
 print(testacc)
 #
-# import pickle
-# filename= '../diabeties/diabet_model.sav'  #nothing just a file name
-# pickle.dump(classifer,open(filename,'wb')) #model is svm
-# loaded=pickle.load(open('../diabeties/diabet_model.sav', 'rb'))
 
-#building predictive system
-#tuple ()
-input= (1,1,1,1,1,1,1,1,0,1,0,1,1,1,0)
+
+input= (1,1,1,1,1,1,1,1,0,1,0,1,1,0)
 ##status has removed from this data
 print('ho')
 ##changing input data to numpy array
