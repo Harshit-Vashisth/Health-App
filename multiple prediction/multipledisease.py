@@ -17,6 +17,8 @@ dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_mo
 covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
 
+st.set_page_config(page_title="Health App", page_icon="E:/git/Health-App/multiple prediction/health.jpg")
+
 
 #side bar for mavigation    sidebar create
 with st.sidebar:
@@ -29,7 +31,7 @@ with st.sidebar:
                              'Diabetes Prediction',
                              'Covid Prediction'],
                             
-                            icons=['activity','person','person','activity','virus'],
+                            icons=['heartimg.png','parkimg.png','activity','diaimg.png','covidimg.png'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
@@ -275,9 +277,9 @@ if(selected=='Diabetes Prediction'):
         dia_prediction = dia_mod.predict([[preg,glu,bp,tricep,insul,bmi,pedi,age]])                          
         
         if (dia_prediction[0] == 1):
-            diabet_dia='You are having Heart Disease'
+            diabet_dia='You are having Diabetes Disease'
         else:
-            diabet_dia='You are not having Heart Disease'
+            diabet_dia='You are not having Diabetes Disease'
     st.success(diabet_dia)
    
     
@@ -333,8 +335,8 @@ if(selected=='Covid Prediction'):
         covid_pred= covid.predict([[breath,fever,cough,sore,running,asthma,lung,head,hear,diab,tens,fati,gas,cont]])                          
         
         if (covid_pred[0] == 1):
-            covid_dia='You are having Heart Disease'
+            covid_dia='You are Covid Positive'
         else:
-            covid_dia='You are not having Heart Disease'
+            covid_dia='You are not  Covid Positive'
     st.success(covid_dia)
    
