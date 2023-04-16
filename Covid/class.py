@@ -22,17 +22,6 @@ from sklearn import svm
 
 import csv
 
-with open('Covid_data.csv', 'r') as csv_file:
-    reader = csv.reader(csv_file)
-    rows = []
-    for row in reader:
-        new_row = [1 if val.lower() == 'yes' else 0 if val.lower() == 'no' else val for val in row]
-        rows.append(new_row)
-
-with open('Covid_data.csv', 'w', newline='') as csv_file:
-    writer = csv.writer(csv_file)
-    writer.writerows(rows)
-
 ## preoprcess the data first
 #standardize the  data so that all thsi data lies in the smae range
 
@@ -58,13 +47,15 @@ print(data.describe())
 
 print(data['COVID-19'].value_counts())
 #0 non 1 yes
-
+print("hehe")
 print(data.groupby('COVID-19').mean())
 
 #seperating the data
-x=data.drop(columns='COVID-19',axis=1)  # axis 1 for col 0 for row
+x=data.drop(columns=['Attended Large Gathering','Visited Public Exposed Places','Family working in Public Exposed Places','Wearing Masks','Sanitization from Market','COVID-19'],axis=1)  # axis 1 for col 0 for row
 y=data['COVID-19']
 
+print(x)
+print("XXXXX")
 # data standardizationn to standardizze the data
 scaler=StandardScaler()
 scaler.fit(x)
@@ -79,10 +70,13 @@ xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,stratify=y,random_
 print(x.shape)
 print(xtrain.shape)
 print(xtest.shape)
-
+print("sheee")
 
 #training the model
 classifer=svm.SVC(kernel='linear')
+
+
+
 
 #training the svm
 classifer.fit(xtrain,ytrain)
@@ -96,15 +90,15 @@ print(trainacc)
 xtestpred= classifer.predict(xtest)
 testacc= accuracy_score(xtestpred,ytest)
 print(testacc)
-
-import pickle
-filename= '../diabeties/diabet_model.sav'  #nothing just a file name
-pickle.dump(classifer,open(filename,'wb')) #model is svm
-loaded=pickle.load(open('../diabeties/diabet_model.sav', 'rb'))
+#
+# import pickle
+# filename= '../diabeties/diabet_model.sav'  #nothing just a file name
+# pickle.dump(classifer,open(filename,'wb')) #model is svm
+# loaded=pickle.load(open('../diabeties/diabet_model.sav', 'rb'))
 
 #building predictive system
 #tuple ()
-input= (2,197,70,45,543,30.5,0.158,53)
+input= (1,1,1,1,1,1,1,1,0,1,0,1,1,1,0)
 ##status has removed from this data
 print('ho')
 ##changing input data to numpy array
@@ -128,6 +122,14 @@ print("by harshit")
 
 
 
+my_dataframe = pd.DataFrame(x)
 
-for column in x.columns:
-  print(column)
+# Access the columns attribute of the DataFrame
+
+import pickle
+filename='covid_model.sav'  #nothing just a file name
+pickle.dump(classifer,open(filename,'wb')) #model is svm
+loaded=pickle.load(open('covid_model.sav','rb'))
+
+for column in my_dataframe.columns:
+    print(column)
