@@ -13,6 +13,7 @@ from streamlit_option_menu import option_menu
 heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.sav','rb')) #rb means reading file as bytes
 park_model=pickle.load(open('E:/git/Health-App/multiple prediction/models/parkinsons_model.sav','rb'))
 heart_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmod.sav','rb')) 
+dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_model.sav','rb')) 
 
 
 
@@ -23,10 +24,10 @@ with st.sidebar:
                          
                             ['Heart Disease Prediction',#list for what are diffrent pages we want as we have seen multiple web apps
                              'Parkinsons Disease Prediction',
-                             'Heart Disease Prediction2'
+                             'Heart Disease Prediction2',
                              'Diabetes Prediction'],
                             
-                            icons=['activity','person','Heart Rate 1 SVG Vector'],
+                            icons=['activity','person','person','activity'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
@@ -230,4 +231,50 @@ if(selected=='Heart Disease Prediction2'):
         else:
             heart_dia='You are not having Heart Disease'
     st.success(heart_dia)
+   
+    
+if(selected=='Diabetes Prediction'):
+#page title
+    st.title('Diabetes Prediction')
+    
+    #getting input data
+    #columns for input fields 
+    col1,col2=st.columns(2)# as we have 3 coloumns
+    
+    with col1:
+        preg=st.text_input('Pregancies')
+    with col2:
+        glu=st.text_input('Glucose(Plasma glucose concentration)')
+    with col1:
+        bp=st.text_input('Diastolic blood pressure (mm Hg)')    
+    with col2:
+        tricep=st.text_input(' Triceps skin fold thickness (mm)')
+    with col1:
+        insul=st.text_input('Insulin 2-Hour serum (mu U/ml)') 
+    with col2:
+        bmi= st.text_input('Body mass index(BMI)')     
+    with col1:
+        pedi= st.text_input('DiabetesPedigreeFunction ')      
+    with col2:
+        age = st.text_input('Age')         
+
+    
+    #inputing from user   st is for stemlit text_input is for those input fields and the string we want to display about the input level
+    
+   
+    #code for prediction
+    # heer we have to create empty string
+    diabet_dia=''   #we will save the end result
+    
+    #creating button for prediction
+    if st.button('📆  Result'):
+      
+        
+        dia_prediction = dia_mod.predict([[preg,glu,bp,tricep,insul,bmi,pedi,age]])                          
+        
+        if (dia_prediction[0] == 1):
+            diabet_dia='You are having Heart Disease'
+        else:
+            diabet_dia='You are not having Heart Disease'
+    st.success(diabet_dia)
    
