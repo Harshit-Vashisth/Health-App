@@ -93,7 +93,7 @@ print(testacc)
 #
 
 
-input= (1,1,1,1,1,1,1,1,0,1,0,1,1,0)
+input= (0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 ##status has removed from this data
 print('ho')
 ##changing input data to numpy array

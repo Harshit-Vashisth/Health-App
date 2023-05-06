@@ -29,9 +29,11 @@ with st.sidebar:
                              'Parkinsons Disease Prediction',
                              'Heart Disease Prediction2',
                              'Diabetes Prediction',
-                             'Covid Prediction'],
+                             'Covid Prediction',
+                             'AI Medical Bot',
+                             'Know My Medicine details'],
                             
-                            icons=['k','parkimg.png','activity','diaimg.png','covidimg.png'],
+                            icons=['k','parkimg.png','activity','diaimg.png','covidimg.png','bot','image'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
@@ -331,9 +333,9 @@ if(selected=='Covid Prediction'):
     #creating button for prediction
     if st.button('📆  Result'):
       
-        
-        covid_pred= covid.predict([[breath,fever,cough,sore,running,asthma,lung,head,hear,diab,tens,fati,gas,cont]])                          
-        
+        print(asthma);
+       # covid_pred= covid.predict([[breath,fever,cough,sore,running,asthma,lung,head,hear,diab,tens,fati,gas,cont]])                          
+        covid_pred= covid.predict([[0,0,0,0,0,0,0,0,0,0,0,0,0,0]])          
         if (covid_pred[0] == 1):
             covid_dia='You are Covid Positive'
         else:
