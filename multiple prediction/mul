@@ -65,26 +65,27 @@ if(selected=='Heart Disease Prediction'):
         else:
             sex=0
     with col1:
-        # cp=st.text_input('**** ') 
-        cp=st.slider('**Which type of chest pain u have**', 0, 3, 1)
-        # gen= st.radio("**Which type of chest pain u have **",( 'Chest Discomfort', 'Stable Angina','unstable Angina','Heart Attack'))
-        # if(gen=="Chest Discomfort"):
-        #     cp=0
-        # if(gen=="unstable Angina"):
-        #     cp=1
-        # if(gen=="unstable Angina"):
-        #     cp=2
-        # else:
-        #     cp=3
+        gen= st.radio("**Which type of chest pain u have **",( 'Chest Discomfort', 'Stable Angina','unstable Angina','Heart Attack'))
+        if(gen=="Chest Discomfort"):
+            cp=0
+        if(gen=="unstable Angina"):
+            cp=1
+        if(gen=="unstable Angina"):
+            cp=2
+        else:
+            cp=3
         
     with col2:
-        trestbps= st.slider('**Resting Blood Pressure**', 50, 250, 25)
+        trestbps=age = st.slider('**Resting Blood Pressure**', 50, 250, 25)
     with col1:
         chol=st.text_input('**Serum Cholestoral in mg/dl ** > 120 mg/dl') 
     with col2:
-        fbs = st.text_input('**Fasting Blood Sugar in mg/dl** > 120 mg/dl')     
+        gen= st.radio("**Fasting Blood Sugar in mg/dl** > 120 mg/dl**",( 'YES','NO'))
+        if(gen=='NO'):
+            fbs=0
+        else:
+            fbs=1 
     with col1:
-        # restecg=st.text_input('**Resting Electrocardiographic results**')        
         gen= st.radio("**Resting Electrocardiographic results**",( 'Normal','Borderline abnormality','Abnormality, include the presence of an arrhythmia'))
         if(gen=="Normal"):
             restecg=0
@@ -95,7 +96,6 @@ if(selected=='Heart Disease Prediction'):
     with col2:
         thalach = st.text_input('**Maximum Heart Rate achieved**')         
     with col1:
-        # exang=st.text_input('Exercise Induced Angina')       
         gen= st.radio("**Exercise Induced Angina**",('YES','NO'))
         if(gen=="YES"):
             exang=1
@@ -103,21 +103,26 @@ if(selected=='Heart Disease Prediction'):
             exang=0
          
     with col2:
-       oldpeak = st.text_input('ST depression induced by exercise')       
+       oldpeak = st.text_input('ST depression induced by exercise')
+              
     with col1:
-       slope = st.text_input('Slope of the peak exercise ST segment')
+        gen= st.radio("**Slope of the peak exercise ST segment**",( 'No St Segment depression(0)','Upsloping St Segment depression(1)','Downsloping St Segment depression(2)'))
+        if(gen=="No St Segment depression"):
+            slope =0
+        if(gen=="Upsloping St Segment depression"):
+            slope =1
+        else :
+            slope =2
     with col2:
-    #    gen= st.radio("**Major vessels colored by flourosopy**",( 'Normal (0)','Mild (1)','Moderate (2)','Serve (3)'))
-    #     if(gen=="Normal (0)"):
-    #         ca =0
-    #     if(gen=="Mild (1)"):
-    #         ca =1
-    #     if(gen=="Moderate (2)"):
-    #         ca =2
-    #     else :
-    #         ca =3
-    #    ca = st.text_input('')
-       ca=st.slider('**Major vessels colored by flourosopy  (Normal-0  Mild-1  Mod-2  Extreme-3)**', 0, 3, 0)
+        gen= st.radio("**Major vessels colored by flourosopy**",( 'Normal (0)','Mild (1)','Moderate (2)','Serve (3)'))
+        if(gen=="Normal (0)"):
+            ca =0
+        if(gen=="Mild (1)"):
+            ca =1
+        if(gen=="Moderate (2)"):
+            ca =2
+        else :
+            ca =3
     with col1:
        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
     
