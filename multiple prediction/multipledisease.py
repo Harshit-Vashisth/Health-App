@@ -9,8 +9,8 @@ import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
 from PIL import Image
-# with open('style.css") as f:
-#     st.markdown(f"<style>{f.read()}</style>",unsafe_allow_html=True)
+
+
 
 #loading the saved models
 heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.sav','rb')) #rb means reading file as bytes 
@@ -20,8 +20,15 @@ dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_mo
 covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
 # Adding Image to web app
-st.set_page_config(page_title="Health App", page_icon="https://i.pinimg.com/originals/d6/b7/51/d6b751d75c50b98be47a56bd11106334.jpg",layout="wide")
+st.set_page_config(page_title="Health App", page_icon="https://cdn-icons-png.flaticon.com/512/2966/2966327.png",layout="wide")
 
+hide_default_format = """
+       <style>
+       #MainMenu {visibility: hidden; }
+       footer {visibility: hidden;}
+       </style>
+       """
+st.markdown(hide_default_format, unsafe_allow_html=True)
 
 #side bar for mavigation    sidebar create
 with st.sidebar:
