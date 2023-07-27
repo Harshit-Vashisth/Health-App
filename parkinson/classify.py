@@ -27,6 +27,7 @@ print(park_data.head())
 
 ##No of rows and col in data frame
 print(park_data.shape)
+# first 5 of dataframe
 
 
 #getting more info of dataset
@@ -44,8 +45,8 @@ print(park_data.isnull().sum())
 
 ##what is the distrubution of parkinson in data use of status
 ##distrubution of traget varible it is status
-l=park_data['status'].value_counts
-#print(l)
+l=park_data['status'].value_counts()
+
 #0 means -ve  healthy
 #1 means +ve  affected
 
@@ -76,7 +77,7 @@ print("total data ::trainingdata::testing ")
 
 #data standardizations  we want all the data in same range but it wont  change the mean of data
 scaler = StandardScaler()
-scaler.fit(xtrain)##it will understand the data
+scaler.fit(xtrain)##it will help to standard function understand the data , the nature of it 
 
 #transforming the data
 xtrain=scaler.transform(xtrain) # it will convert all the values in the same range
@@ -144,7 +145,7 @@ else:
 print("by harshit")
 
 
-import pickle
+import pickle #use to save our model to a specific file
 filename='parkmodel.sav'
 pickle.dump(model,open(filename,'wb')) #model is svm
 loaded=pickle.load(open('parkmodel.sav','rb'))

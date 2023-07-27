@@ -8,6 +8,9 @@ Created on Tue Mar 28 10:50:01 2023
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+from PIL import Image
+# with open('style.css") as f:
+#     st.markdown(f"<style>{f.read()}</style>",unsafe_allow_html=True)
 
 #loading the saved models
 heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.sav','rb')) #rb means reading file as bytes 
@@ -16,8 +19,8 @@ heart_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmo
 dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_model.sav','rb')) 
 covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
-
-st.set_page_config(page_title="Health App", page_icon="https://cdn-icons-png.flaticon.com/512/2966/2966327.png")
+# Adding Image to web app
+st.set_page_config(page_title="Health App", page_icon="https://i.pinimg.com/originals/d6/b7/51/d6b751d75c50b98be47a56bd11106334.jpg",layout="wide")
 
 
 #side bar for mavigation    sidebar create
@@ -33,7 +36,7 @@ with st.sidebar:
                              'AI Medical Bot',
                              'Know My Medicine details'],
                             
-                            icons=['k','parkimg.png','activity','diaimg.png','covidimg.png','bot','image'],
+                            icons=['activity','parkimg.png','activity','diaimg.png','covidimg.png','bot','image'],
                             
                             default_index=0)#default index =0 means the page which is selected is 0 that is heart
 #Heart Disease Prediction page
@@ -43,31 +46,31 @@ if(selected=='Heart Disease Prediction'):
     
     #getting input data
     #columns for input fields 
-    col1,col2,col3=st.columns(3)# as we have 3 coloumns
+    col1,col2=st.columns(2)# as we have 3 coloumns
     
     with col1:
         age=st.text_input('Age')
     with col2:
         sex=st.text_input('Sex')
-    with col3:
-        cp=st.text_input('Chest Pain Types')    
     with col1:
-        trestbps=st.text_input('Resting Blood pressure')
+        cp=st.text_input('Chest Pain Types')    
     with col2:
+        trestbps=st.text_input('Resting Blood pressure')
+    with col1:
         chol=st.text_input('Serum Cholestoral in mg/dl') 
-    with col3:
+    with col2:
         fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')     
     with col1:
         restecg = st.text_input('Resting Electrocardiographic results')      
     with col2:
         thalach = st.text_input('Maximum Heart Rate achieved')         
-    with col3:
-        exang = st.text_input('Exercise Induced Angina')
     with col1:
-       oldpeak = st.text_input('ST depression induced by exercise')       
+        exang = st.text_input('Exercise Induced Angina')
     with col2:
+       oldpeak = st.text_input('ST depression induced by exercise')       
+    with col1:
        slope = st.text_input('Slope of the peak exercise ST segment')
-    with col3:
+    with col2:
        ca = st.text_input('Major vessels colored by flourosopy')
     with col1:
        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
