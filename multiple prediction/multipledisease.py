@@ -20,15 +20,16 @@ dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_mo
 covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
 
 # Adding Image to web app
+
 st.set_page_config(page_title="Health App", page_icon="https://cdn-icons-png.flaticon.com/512/2966/2966327.png",layout="wide")
 
-hide_default_format = """
-       <style>
-       #MainMenu {visibility: hidden; }
-       footer {visibility: hidden;}
-       </style>
-       """
-st.markdown(hide_default_format, unsafe_allow_html=True)
+# hide_default_format = """
+#        <style>
+#        #MainMenu {visibility: hidden; }
+#        footer {visibility: hidden;}
+#        </style>
+#        """
+# st.markdown(hide_default_format, unsafe_allow_html=True)
 
 #side bar for mavigation    sidebar create
 with st.sidebar:
@@ -56,23 +57,47 @@ if(selected=='Heart Disease Prediction'):
     col1,col2=st.columns(2)# as we have 3 coloumns
     
     with col1:
-        age=st.text_input('Age')
+       age = st.slider('**How old are you?**', 0, 130, 25)
     with col2:
-        sex=st.text_input('Sex')
+        gen= st.radio("**What's your Gender**",( 'Male', 'Female'))
+        if(gen=="Male"):
+            sex=1
+        else:
+            sex=0
     with col1:
-        cp=st.text_input('Chest Pain Types')    
+        gen= st.radio("**Which type of chest pain u have **",( 'Chest Discomfort', 'Stable Angina','unstable Angina','Heart Attack'))
+        if(gen=="Chest Discomfort"):
+            cp=0
+        if(gen=="unstable Angina"):
+            cp=1
+        if(gen=="unstable Angina"):
+            cp=2
+        else:
+            cp=3
+        
     with col2:
-        trestbps=st.text_input('Resting Blood pressure')
+        trestbps=age = st.slider('**Resting Blood Pressure**', 50, 250, 25)
     with col1:
-        chol=st.text_input('Serum Cholestoral in mg/dl') 
+        chol=st.text_input('**Serum Cholestoral in mg/dl ** > 120 mg/dl') 
     with col2:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')     
+        fbs = st.text_input('**Fasting Blood Sugar in mg/dl** > 120 mg/dl')     
     with col1:
-        restecg = st.text_input('Resting Electrocardiographic results')      
+        gen= st.radio("**Resting Electrocardiographic results**",( 'Normal','Borderline abnormality','Abnormality, include the presence of an arrhythmia'))
+        if(gen=="Normal"):
+            restecg=0
+        if(gen=="Borderline abnormality"):
+            restecg=1
+        else :
+            restecg=2
     with col2:
-        thalach = st.text_input('Maximum Heart Rate achieved')         
+        thalach = st.text_input('**Maximum Heart Rate achieved**')         
     with col1:
-        exang = st.text_input('Exercise Induced Angina')
+        gen= st.radio("**Exercise Induced Angina**",('YES','NO'))
+        if(gen=="YES"):
+            exang=1
+        else :
+            exang=0
+         
     with col2:
        oldpeak = st.text_input('ST depression induced by exercise')       
     with col1:
