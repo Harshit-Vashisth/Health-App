@@ -12,8 +12,6 @@ from PIL import Image
 
 import json
 import requests
-
-import streamlit as st
 from streamlit_lottie import st_lottie
 import time
 
