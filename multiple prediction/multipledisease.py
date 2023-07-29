@@ -22,11 +22,11 @@ import time
 
 def main_code():
     #loading the saved models
-    heart=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmodel.sav','rb')) #rb means reading file as bytes 
-    park_model=pickle.load(open('E:/git/Health-App/multiple prediction/models/parkinsons_model.sav','rb'))
-    heart_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/heartmod.sav','rb')) 
-    dia_mod=pickle.load(open('E:/git/Health-App/multiple prediction/models/diabet_model.sav','rb')) 
-    covid=pickle.load(open('E:/git/Health-App/multiple prediction/models/covid_model.sav','rb')) 
+    heart=pickle.load(open('heartmodel.sav','rb')) #rb means reading file as bytes 
+    park_model=pickle.load(open('parkinsons_model.sav','rb'))
+    heart_mod=pickle.load(open('heartmod.sav','rb')) 
+    dia_mod=pickle.load(open('diabet_model.sav','rb')) 
+    covid=pickle.load(open('covid_model.sav','rb')) 
 
    
     with st.sidebar:
