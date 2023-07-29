@@ -4,5 +4,5 @@ scikit-learn==1.0.1
 pandas=1.4.4
 streamlit=1.25.0
 streamlit-lottie=0.0.5
-streamlit-option-menu=0.3.2
+streamlit-option-menu=0.3.6
 pickleshare=0.7.5
