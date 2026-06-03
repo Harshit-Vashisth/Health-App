@@ -6,16 +6,21 @@ Modernised UI (dark theme) + hardened inputs.
 @author: HP
 """
 
+import os
 import pickle
 import time
 from pathlib import Path
 
 import requests
 import streamlit as st
+from groq import Groq
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 
 BASE_DIR = Path(__file__).parent
+
+# Groq model used for the AI Medical Bot.
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 
 # ----------------------------------------------------------------------
@@ -55,6 +60,62 @@ def load_css():
     css_path = BASE_DIR / "style.css"
     if css_path.exists():
         st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+
+def _get_groq_api_key():
+    """Read the Groq key from Streamlit secrets, falling back to an env var.
+
+    The key is never hard-coded in source — it lives in .streamlit/secrets.toml
+    (gitignored) locally, or in the Streamlit Cloud 'Secrets' panel in production.
+    """
+    try:
+        if "GROQ_API_KEY" in st.secrets:
+            return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        pass
+    return os.environ.get("GROQ_API_KEY")
+
+
+@st.cache_resource(show_spinner=False)
+def get_groq_client():
+    key = _get_groq_api_key()
+    return Groq(api_key=key) if key else None
+
+
+# Prompt-engineered persona for the AI Medical Bot.
+DOCTOR_SYSTEM_PROMPT = """You are "Dr. Theo", a warm, experienced general physician offering \
+preliminary, educational health guidance inside a health app.
+
+STYLE
+- Speak like a caring, professional doctor: clear, plain language, minimal jargon.
+- Be concise and well structured — short paragraphs and bullet points.
+- Lead with brief empathy, then get to the point.
+
+CLINICAL APPROACH
+1. Briefly acknowledge the person's concern.
+2. If key details are missing, ask 2-3 focused follow-up questions (onset, duration,
+   severity, location, associated symptoms, age, relevant history, current medications,
+   allergies). Don't overwhelm them with questions.
+3. Once you have enough context, provide:
+   - Possible common explanations, framed as possibilities — never a definitive diagnosis.
+   - Practical self-care and lifestyle advice where appropriate.
+   - Clear guidance on whether/when to see a clinician (now / within 24-48h / routine).
+   - Red-flag symptoms that warrant urgent care.
+
+SAFETY (non-negotiable)
+- You are NOT a replacement for an in-person doctor and must never give a definitive diagnosis.
+- Do NOT prescribe specific prescription drug names or exact dosages. You may mention common
+  over-the-counter options generically and advise confirming with a pharmacist or doctor.
+- EMERGENCIES: if the user describes severe chest pain, difficulty breathing, stroke signs
+  (face droop, arm weakness, slurred speech), severe bleeding, anaphylaxis, or any
+  life-threatening sign, stop the normal flow and urgently tell them to call their local
+  emergency number or go to the nearest emergency department immediately.
+- For suicidal thoughts or self-harm, respond with compassion and direct them to local
+  emergency services and a crisis hotline.
+- Stay on medical and health topics; politely decline unrelated requests.
+
+End substantive replies with a short, friendly reminder that this is general information and
+they should consult a licensed clinician for diagnosis and treatment."""
 
 
 # ----------------------------------------------------------------------
@@ -220,6 +281,71 @@ def page_diabetes(model):
     st.markdown('</div>', unsafe_allow_html=True)
 
 
+def page_ai_doctor():
+    hero("AI Medical Bot", "Chat with Dr. Theo about symptoms and general health questions.", "🩺")
+
+    client = get_groq_client()
+    if client is None:
+        st.error(
+            "The AI assistant isn't configured. Add **GROQ_API_KEY** to "
+            "`.streamlit/secrets.toml` (local) or to **Manage app → Settings → Secrets** "
+            "(Streamlit Cloud)."
+        )
+        return
+
+    st.caption(
+        "⚕️ General information only — not a diagnosis. "
+        "In an emergency, call your local emergency number."
+    )
+
+    if "chat" not in st.session_state:
+        st.session_state.chat = [{
+            "role": "assistant",
+            "content": ("Hello, I'm **Dr. Theo** 👋  I can help you make sense of symptoms "
+                        "and general health questions. What's bothering you today?"),
+        }]
+
+    # Render conversation so far.
+    for msg in st.session_state.chat:
+        avatar = "🩺" if msg["role"] == "assistant" else "🧑"
+        with st.chat_message(msg["role"], avatar=avatar):
+            st.markdown(msg["content"])
+
+    prompt = st.chat_input("Describe your symptoms or ask a health question…")
+    if prompt:
+        st.session_state.chat.append({"role": "user", "content": prompt})
+        with st.chat_message("user", avatar="🧑"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant", avatar="🩺"):
+            messages = [{"role": "system", "content": DOCTOR_SYSTEM_PROMPT}]
+            messages += [{"role": m["role"], "content": m["content"]}
+                         for m in st.session_state.chat]
+            try:
+                stream = client.chat.completions.create(
+                    model=GROQ_MODEL,
+                    messages=messages,
+                    temperature=0.4,
+                    max_tokens=900,
+                    stream=True,
+                )
+
+                def token_stream():
+                    for chunk in stream:
+                        yield chunk.choices[0].delta.content or ""
+
+                reply = st.write_stream(token_stream)
+            except Exception as e:
+                reply = "Sorry, I couldn't reach the medical assistant right now. Please try again."
+                st.error(f"{reply}\n\n`{e}`")
+        st.session_state.chat.append({"role": "assistant", "content": reply})
+
+    if len(st.session_state.get("chat", [])) > 1:
+        if st.button("🗑️  Clear conversation"):
+            del st.session_state["chat"]
+            st.rerun()
+
+
 def page_coming_soon(title, emoji):
     hero(title, "This feature is on the way — thank you for your patience.", emoji)
     render_lottie(LOTTIE["soon"], key=f"lottie_soon_{title}", height=420, speed=0.6)
@@ -264,7 +390,7 @@ def main_code():
     elif selected == "Diabetes Prediction":
         page_diabetes(models["diabetes"])
     elif selected == "AI Medical Bot":
-        page_coming_soon("AI Medical Bot", "🤖")
+        page_ai_doctor()
     elif selected == "Know My Medicine details":
         page_coming_soon("Know My Medicine details", "💊")
 
