@@ -1,6 +1,113 @@
-.nav-item{
-    background-color: #5755d9;
+/* ===========================================================
+   Health App — Modern Dark Theme
+   =========================================================== */
+:root{
+  --bg:#0e1117;
+  --panel:#161a25;
+  --panel-2:#1d2230;
+  --accent:#00d9b8;
+  --accent-2:#3b82f6;
+  --text:#e6e9ef;
+  --muted:#9aa3b2;
+  --danger:#ff5d6c;
+  --safe:#28c76f;
+  --radius:16px;
 }
-.a.nav-link.active{
-    background-color: #5755d9;
+
+/* ---- App background ---- */
+.stApp{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #14203b 0%, transparent 55%),
+    radial-gradient(1000px 500px at 100% 0%, #102b2a 0%, transparent 50%),
+    var(--bg);
+  color: var(--text);
+}
+
+/* ---- Hide default chrome ---- */
+#MainMenu{visibility:hidden;}
+footer{visibility:hidden;}
+header[data-testid="stHeader"]{background:transparent;}
+
+/* ---- Hero header ---- */
+.hero{
+  display:flex; align-items:center; gap:20px;
+  padding:26px 30px; margin:6px 0 24px;
+  background: linear-gradient(135deg, rgba(0,217,184,.12), rgba(59,130,246,.10));
+  border:1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+}
+.hero-emoji{font-size:46px; line-height:1;}
+.hero-title{
+  margin:0; font-size:30px; font-weight:800; letter-spacing:.3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-sub{margin:6px 0 0; color:var(--muted); font-size:15px;}
+
+/* ---- Section card ---- */
+.card{
+  background: var(--panel);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  padding:8px 22px 18px;
+  margin-bottom:18px;
+}
+
+/* ---- Inputs ---- */
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox div[data-baseweb="select"] > div{
+  background: var(--panel-2) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  border-radius:12px !important;
+  color:var(--text) !important;
+}
+.stTextInput input:focus,
+.stNumberInput input:focus{
+  border-color: var(--accent) !important;
+  box-shadow:0 0 0 2px rgba(0,217,184,.25) !important;
+}
+label, .stRadio label, .stSlider label{ color:var(--text) !important; }
+
+/* ---- Buttons ---- */
+.stButton > button{
+  width:100%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#04121f; font-weight:700; border:none;
+  border-radius:12px; padding:12px 18px; font-size:16px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.stButton > button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(0,217,184,.30);
+  color:#04121f;
+}
+.stButton > button:active{ transform:translateY(0); }
+
+/* ---- Sidebar ---- */
+section[data-testid="stSidebar"]{
+  background: linear-gradient(180deg,#0c0f17,#11151f);
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+/* ---- Result cards ---- */
+.result-card{
+  margin-top:20px; padding:18px 22px; border-radius:14px;
+  font-size:18px; font-weight:700; display:flex; align-items:center; gap:12px;
+}
+.result-danger{ background:rgba(255,93,108,.12); border:1px solid var(--danger); color:#ffb3ba; }
+.result-safe{ background:rgba(40,199,111,.12); border:1px solid var(--safe); color:#9be8c0; }
+.result-idle{ background:var(--panel-2); border:1px solid rgba(255,255,255,.08); color:var(--muted); }
+
+/* ---- Chips ---- */
+.chip{
+  display:inline-block; padding:6px 12px; border-radius:999px;
+  background:var(--panel-2); border:1px solid rgba(255,255,255,.08);
+  color:var(--muted); font-size:13px; margin:2px;
+}
+
+/* ---- Coming soon ---- */
+.coming-soon{
+  text-align:center; padding:30px;
+  color:var(--accent); font-size:20px; font-weight:700;
 }
