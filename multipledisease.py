@@ -13,6 +13,7 @@ from pathlib import Path
 
 import requests
 import streamlit as st
+import streamlit.components.v1 as components
 from groq import Groq
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
@@ -114,6 +115,14 @@ SAFETY (non-negotiable)
   emergency services and a crisis hotline.
 - Stay on medical and health topics; politely decline unrelated requests.
 
+LANGUAGE
+- The user may write in English, Hindi, or Hinglish (Hindi written in Roman/English script,
+  e.g. "pet mein dard hai", "sir dard ho raha hai", "bukhar aa raha hai", "gala kharab hai").
+- Always reply in the SAME language and style the user used. If they write in Hinglish, reply in
+  warm, natural Hinglish (Roman script); if in English, reply in English; if in Hindi, reply in Hindi.
+- Keep medical wording simple and easy to understand; when useful, add the English term in brackets,
+  e.g. "pet dard (stomach pain)".
+
 End substantive replies with a short, friendly reminder that this is general information and
 they should consult a licensed clinician for diagnosis and treatment."""
 
@@ -163,15 +172,34 @@ LOTTIE = {
 # ----------------------------------------------------------------------
 # Pages
 # ----------------------------------------------------------------------
+# Home-page feature tiles → (emoji, title, description, target menu index, slug)
+HOME_TILES = [
+    ("❤️", "Heart", "Cardiac risk from clinical markers.", 1, "heart"),
+    ("🧠", "Parkinson's", "Voice-measure based screening.", 2, "parkinsons"),
+    ("🩸", "Diabetes", "Diabetes likelihood from vitals.", 3, "diabetes"),
+    ("🩺", "AI Dr. Theo", "Chat about symptoms in Hindi or English.", 4, "aidoc"),
+]
+
+
 def page_main():
     hero("HEALTH APP", "AI-powered screening for common conditions — fast, private, on-device.", "🩺")
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown('<div class="card"><h3>❤️ Heart</h3><p class="hero-sub">Cardiac risk from clinical markers.</p></div>', unsafe_allow_html=True)
-    with c2:
-        st.markdown('<div class="card"><h3>🧠 Parkinson\'s</h3><p class="hero-sub">Voice-measure based screening.</p></div>', unsafe_allow_html=True)
-    with c3:
-        st.markdown('<div class="card"><h3>🩸 Diabetes</h3><p class="hero-sub">Diabetes likelihood from vitals.</p></div>', unsafe_allow_html=True)
+
+    cols = st.columns(len(HOME_TILES))
+    for col, (emoji, title, desc, idx, slug) in zip(cols, HOME_TILES):
+        with col:
+            # Each tile is a card with a full-size invisible button overlay (see style.css),
+            # so clicking anywhere on the card navigates to that feature.
+            with st.container(key=f"tile-{slug}"):
+                st.markdown(
+                    f'<div class="tile-emoji">{emoji}</div>'
+                    f'<div class="tile-title">{title}</div>'
+                    f'<div class="tile-desc">{desc}</div>',
+                    unsafe_allow_html=True,
+                )
+                if st.button(f"Open {title}", key=f"tile-btn-{slug}", use_container_width=True):
+                    st.session_state.nav_index = idx
+                    st.rerun()
+
     render_lottie(LOTTIE["main"], key="lottie_main", height=420, speed=0.6)
     st.caption("⚕️ For educational use only — not a substitute for professional medical advice.")
 
@@ -302,7 +330,8 @@ def page_ai_doctor():
         st.session_state.chat = [{
             "role": "assistant",
             "content": ("Hello, I'm **Dr. Theo** 👋  I can help you make sense of symptoms "
-                        "and general health questions. What's bothering you today?"),
+                        "and general health questions. You can also chat with me in Hinglish — "
+                        "jaise *\"pet mein dard hai\"*. What's bothering you today?"),
         }]
 
     # Render conversation so far.
@@ -311,7 +340,25 @@ def page_ai_doctor():
         with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
 
-    prompt = st.chat_input("Describe your symptoms or ask a health question…")
+    # Quick-start Hinglish suggestion chips (shown before the user has asked anything).
+    if len(st.session_state.chat) <= 1:
+        st.markdown("**Try asking (Hinglish):**")
+        suggestions = [
+            "Pet mein dard ho raha hai 😣",
+            "Sir dard aur bukhar hai",
+            "Gala kharab hai, khasi aa rahi hai",
+            "Acidity aur gas ki problem hai",
+        ]
+        sug_cols = st.columns(len(suggestions))
+        for col, text in zip(sug_cols, suggestions):
+            with col:
+                if st.button(text, key=f"sug-{text}", use_container_width=True):
+                    st.session_state.pending_prompt = text
+                    st.rerun()
+
+    # A suggestion chip queues a prompt; the chat box handles typed input.
+    prompt = st.chat_input("Describe your symptoms or ask a health question…") \
+        or st.session_state.pop("pending_prompt", None)
     if prompt:
         st.session_state.chat.append({"role": "user", "content": prompt})
         with st.chat_message("user", avatar="🧑"):
@@ -355,9 +402,37 @@ def page_coming_soon(title, emoji):
 # ----------------------------------------------------------------------
 # App shell
 # ----------------------------------------------------------------------
+def collapse_sidebar():
+    """Best-effort: click Streamlit's sidebar collapse control so the side menu
+    slides back after a selection (useful on mobile / narrow screens)."""
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        setTimeout(() => {
+            const sidebar = doc.querySelector('section[data-testid="stSidebar"]');
+            if (!sidebar) return;
+            // Don't toggle if it's already collapsed.
+            if (sidebar.getAttribute('aria-expanded') === 'false') return;
+            const btn =
+                doc.querySelector('[data-testid="stSidebarCollapseButton"] button') ||
+                doc.querySelector('[data-testid="stSidebarCollapseButton"]') ||
+                sidebar.querySelector('button[kind="header"]') ||
+                sidebar.querySelector('[data-testid="baseButton-headerNoPadding"]');
+            if (btn) btn.click();
+        }, 80);
+        </script>
+        """,
+        height=0,
+    )
+
+
 def main_code():
     load_css()
     models = load_models()
+
+    # A clickable home tile sets nav_index; feed it to the menu as a one-shot manual select.
+    manual_select = st.session_state.pop("nav_index", None)
 
     with st.sidebar:
         selected = option_menu(
@@ -370,6 +445,8 @@ def main_code():
              "Know My Medicine details"],
             icons=["house", "activity", "person", "clipboard", "robot", "upload"],
             default_index=0,
+            manual_select=manual_select,
+            key="main_menu",
             styles={
                 "container": {"padding": "6px", "background-color": "transparent"},
                 "icon": {"color": "#00d9b8", "font-size": "18px"},
@@ -380,6 +457,12 @@ def main_code():
                     "color": "#04121f", "font-weight": "700"},
             },
         )
+
+    # When the active page changes (via the side menu or a home tile), collapse the
+    # sidebar so it "goes back" instead of staying open over the content.
+    if st.session_state.get("last_selected") not in (None, selected):
+        collapse_sidebar()
+    st.session_state.last_selected = selected
 
     if selected == "Main Page":
         page_main()
